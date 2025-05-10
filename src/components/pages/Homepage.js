@@ -143,7 +143,7 @@ const Homepage = () => {
                   className="btn btn-outline-light btn-sm px-3"
                   onClick={() => setActiveModal("response")}
                 >
-                  <i className="bi bi-chat-dots-fill me-1"></i> Record Form
+                  <i className="bi bi-chat-dots-fill me-1"></i> Response Submission
                 </button>
               </li>
               <li className="nav-item">
@@ -221,11 +221,11 @@ const Homepage = () => {
           <div className="custom-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="card shadow-sm">
               <div className="card-header d-flex justify-content-between align-items-center bg-primary text-white">
-                <h5 className="mb-0">Record Form</h5>
+                <h5 className="mb-0">Submit your response</h5>
               </div>
               <div className="card-body">
                 <DataTable
-                  title="Record List"
+                  title="Form List"
                   columns={columnsResponse}
                   data={responsevalue}
                   onRowClicked={(row) => navigate(`/response/${row._id}`)}

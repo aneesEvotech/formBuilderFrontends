@@ -45,10 +45,11 @@ const FormResponse = () => {
             const res = await axios.post(`${base_urlLink}/api/responses/responsesubmit`, payload, {
                 headers: { "Content-Type": "application/json" },
             });
-            toast.success(res.message)
+            toast.success("Response submitted successfully!")
             navigate('/');
             setResponses({});
         } catch (err) {
+            toast.error("Response not submitted!")
             console.error("Submission failed:", err);
             alert("Submission failed!");
         }
