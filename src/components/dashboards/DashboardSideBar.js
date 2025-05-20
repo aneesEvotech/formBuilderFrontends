@@ -8,7 +8,7 @@ const DashboardSidebar = ({ data }) => {
         const storedUser = localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
     });
-
+    const [showVisitorsSubmenu, setShowVisitorsSubmenu] = useState(data.isopen);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -17,6 +17,19 @@ const DashboardSidebar = ({ data }) => {
         toast.info("Logged out successfully");
         navigate("/"); // or navigate("/login") if you have a login route
     };
+
+    const SidebarItem = ({ iconClass, label, to }) => (
+        <li className="mb-2">
+            <Link
+                to={to}
+                className="nav-link text-dark px-3 py-2 rounded d-flex align-items-center"
+                style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+            >
+                <i className={`${iconClass} me-2`}></i>
+                {label}
+            </Link>
+        </li>
+    );
 
     return (
         <div className="bg-white border rounded shadow p-4 h-100" style={{ minHeight: "100vh" }}>
@@ -33,6 +46,39 @@ const DashboardSidebar = ({ data }) => {
                 <li className="nav-item mb-2">
                     <Link
                         to="/adminDashboard"
+                        className={`nav-link text-dark px-3 py-2 rounded d-flex align-items-center ${data === 'forms' ? 'active' : ''}`}
+                    >
+                        <i className="bi bi-file-earmark-text me-2 text-secondary"></i> Dashboard
+                    </Link>
+                </li>
+
+                <li className="nav-item mb-2">
+                    <button
+                        className={`nav-link text-dark px-3 py-2 rounded d-flex align-items-center w-100 btn btn-link ${data === "visitors" ? "active" : ""
+                            }`}
+                        onClick={() => setShowVisitorsSubmenu(!showVisitorsSubmenu)}
+                        style={{ textDecoration: "none", justifyContent: "space-between" }}
+                    >
+                        <span>
+                            <i className="bi bi-people-fill me-2 text-secondary"></i> Visitors
+                        </span>
+                        <i
+                            className={`bi ${showVisitorsSubmenu ? "bi-chevron-up" : "bi-chevron-down"
+                                }`}
+                        ></i>
+                    </button>
+
+                    {showVisitorsSubmenu && (
+                        <ul className="list-unstyled mt-2 ps-4">
+                            <SidebarItem iconClass="bi bi-person-fill" label="Total Visitor" to="/adminDashboard/totalVisitor" />
+                            <SidebarItem iconClass="bi bi-book" label="Unique Visitor" to="/adminDashboard/uniquevisitorPage" />
+                        </ul>
+                    )}
+                </li>
+
+                <li className="nav-item mb-2">
+                    <Link
+                        to="/adminDashboard/forms"
                         className={`nav-link text-dark px-3 py-2 rounded d-flex align-items-center ${data === 'forms' ? 'active' : ''}`}
                     >
                         <i className="bi bi-file-earmark-text me-2 text-secondary"></i> Forms
@@ -54,6 +100,7 @@ const DashboardSidebar = ({ data }) => {
                         <i className="bi bi-person-lines-fill me-2 text-secondary"></i> Users
                     </Link>
                 </li>
+
 
                 <li className="nav-item mt-3">
                     <button
