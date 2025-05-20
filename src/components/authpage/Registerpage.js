@@ -115,7 +115,7 @@ const RegisterPage = () => {
               <form onSubmit={handleSubmit} noValidate>
                 {/* Username */}
                 <div className="mb-3">
-                  <label className="form-label">Username</label>
+                  <label className="form-label">User Name</label>
                   <input
                     type="text"
                     className={`form-control ${errors.username ? "is-invalid" : ""
