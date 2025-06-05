@@ -23,7 +23,6 @@ const Homepage = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("usr lo", user)
       setActiveModal("forms");
     } else {
       navigate('/login');

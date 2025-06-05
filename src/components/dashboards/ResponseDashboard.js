@@ -37,7 +37,6 @@ const ResponseDashboard = () => {
             .get(`${base_urlLink}/api/responses/getallresponseswithCount`)
             .then((response) => {
                 setResponses(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching responses:", error);

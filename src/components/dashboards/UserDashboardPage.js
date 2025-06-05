@@ -37,7 +37,6 @@ const UserDashboardPage = () => {
             .get(`${base_urlLink}/auth/api/getallusers`)
             .then((response) => {
                 setUsers(response.data);
-                console.log("users", response.data);
             })
             .catch((error) => {
                 console.error("Error fetching users:", error);

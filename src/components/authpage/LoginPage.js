@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import { base_urlLink } from "../helper/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { getSubscriptionStatus } from "../../services/subscriptionService";
+import { useDispatch } from "react-redux";
+import { setSubscription } from "../../redux-store/slices/subscriptionSlice";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -55,11 +59,10 @@ const LoginPage = () => {
       username: username || "",
       password: password || "",
     };
-    console.log(payload);
 
     try {
       const response = await axios.post(
-        `${base_urlLink}/auth/api/login`,
+        `${base_urlLink}/api/auth/login`,
         payload,
         {
           headers: {
@@ -70,9 +73,13 @@ const LoginPage = () => {
 
       if (response.data && response.data.token) {
         toast.success("Login successful!");
-        console.log("Login successful:", response.data);
-        localStorage.setItem('authToken', response.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem("authToken", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data));
+
+        // ⬇️ Fetch subscription
+        const subscriptionData = await getSubscriptionStatus();
+        dispatch(setSubscription(subscriptionData)); // Save to Redux
+
         navigate("/");
       } else {
         toast.error("Login failed: Invalid credentials");
@@ -106,8 +113,9 @@ const LoginPage = () => {
                     type="text"
                     name="username"
                     id="username"
-                    className={`form-control ${errors.username ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${
+                      errors.username ? "is-invalid" : ""
+                    }`}
                     value={username}
                     onChange={handleChange}
                   />
@@ -126,8 +134,9 @@ const LoginPage = () => {
                       type={showPassword ? "text" : "password"}
                       name="password"
                       id="password"
-                      className={`form-control ${errors.password ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        errors.password ? "is-invalid" : ""
+                      }`}
                       value={password}
                       onChange={handleChange}
                     />
@@ -170,7 +179,9 @@ const LoginPage = () => {
                 </button>
                 <div className="text-center mt-3">
                   <span>Don't have an account? </span>
-                  <a className="" style={{color:'red'}} href="/register">Register</a>
+                  <a className="" style={{ color: "red" }} href="/register">
+                    Register
+                  </a>
                 </div>
               </form>
             </div>

@@ -17,7 +17,6 @@ const useVisitor = () => {
         axios.post(`${base_urlLink}/api/visitor/track`, {
           url: location.pathname,
         }).then(res => {
-          console.log('Visitor:', res.data);
           sessionStorage.setItem(visitedKey, 'true');
         }).catch(err => console.error('Tracking error:', err));
       }

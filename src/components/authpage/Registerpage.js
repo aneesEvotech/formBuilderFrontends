@@ -80,11 +80,10 @@ const RegisterPage = () => {
       phone: formData.phone || "",
       password: formData.password || "",
     };
-    console.log(payload);
 
     try {
       const response = await axios.post(
-        `${base_urlLink}/auth/api/register`,
+        `${base_urlLink}/api/auth/register`,
         payload,
         {
           headers: {
@@ -98,7 +97,6 @@ const RegisterPage = () => {
         toast.success("register successfully");
         navigate('/');
       }
-      console.log("Login successful:", response.data);
     } catch (error) {
       toast.error("Login failed", error.response?.data || error.message)
       console.error("Login failed:", error.response?.data || error.message);

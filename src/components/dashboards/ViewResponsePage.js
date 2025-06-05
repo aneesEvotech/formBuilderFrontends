@@ -36,7 +36,6 @@ const ViewResponsePage = () => {
             .get(`${base_urlLink}/api/responses/getallresponses/${id}`)
             .then((response) => {
                 setResponses(response.data);
-                console.log("adiu lisb", response.data);
             })
             .catch((error) => {
                 console.error("Error fetching responses:", error);

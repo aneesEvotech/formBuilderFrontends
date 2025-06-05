@@ -17,6 +17,9 @@ import EditForm from "./components/pages/EditForm";
 import useVisitor from "./components/hooks/useVisitor";
 import UniqueVisitor from "./components/dashboards/UniqueVisitor";
 import TotalVisitor from "./components/dashboards/TotalVisitor";
+import SubscriptionCancel from "./components/authpage/SubscriptionCancel";
+import SubscriptionSuccess from "./components/authpage/SubscriptionSuccess";
+import PricingPlans from "./components/pages/PricingPlans";
 const AppRouter = () => {
   useVisitor();
   return (
@@ -30,12 +33,25 @@ const AppRouter = () => {
         <Route path="/response/:id" element={<FormResponse />} />
         <Route path="/adminDashboard/forms" element={<DashboardPage />} />
         <Route path="/adminDashboard" element={<DashboardMainPage />} />
-        <Route path="/adminDashboard/responses" element={<ResponseDashboard />} />
-        <Route path="/adminDashboard/responses/:id" element={<ViewResponsePage />} />
+        <Route
+          path="/adminDashboard/responses"
+          element={<ResponseDashboard />}
+        />
+        <Route
+          path="/adminDashboard/responses/:id"
+          element={<ViewResponsePage />}
+        />
         <Route path="/adminDashboard/users" element={<UserDashboardPage />} />
         <Route path="/adminDashboard/edituser/:id" element={<EditUserPage />} />
-        <Route path="/adminDashboard/uniquevisitorPage" element={<UniqueVisitor />} />
+        <Route
+          path="/adminDashboard/uniquevisitorPage"
+          element={<UniqueVisitor />}
+        />
         <Route path="/adminDashboard/totalVisitor" element={<TotalVisitor />} />
+        <Route path="/subscription-cancel" element={<SubscriptionCancel />} />
+        <Route path="/subscription-success" element={<SubscriptionSuccess />} />
+        <Route path="/pricing" element={<PricingPlans />} />
+
         <Route path="*" element={<NotFoundpage />} />
       </Routes>
     </>
