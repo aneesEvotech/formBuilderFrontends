@@ -72,13 +72,14 @@ const LoginPage = () => {
       );
 
       if (response.data && response.data.token) {
+        console.log(response)
         toast.success("Login successful!");
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data));
 
         // ⬇️ Fetch subscription
-        // const subscriptionData = await getSubscriptionStatus();
-        // dispatch(setSubscription(subscriptionData)); // Save to Redux
+        const subscriptionData = await getSubscriptionStatus();
+        dispatch(setSubscription(subscriptionData)); // Save to Redux
 
         navigate("/");
       } else {
