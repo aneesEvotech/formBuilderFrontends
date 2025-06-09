@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const FeatureGate = ({ children }) => {
   const { plan, status } = useSelector((state) => state.subscription || {});
-  const hasAccess = plan === "pro subscription" && status === "active";
+  const hasAccess = plan === "pro plan" && status === "active";
 
   if (hasAccess) {
     return children;

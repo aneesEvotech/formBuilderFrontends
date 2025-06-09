@@ -34,7 +34,7 @@ const SubscriptionCancel = () => {
             className="btn btn-outline-secondary"
             onClick={() => navigate("/")}
           >
-            Back to Dashboard
+            Back to Home
           </button>
         </div>
       </div>

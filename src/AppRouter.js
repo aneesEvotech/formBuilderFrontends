@@ -20,6 +20,7 @@ import TotalVisitor from "./components/dashboards/TotalVisitor";
 import SubscriptionCancel from "./components/authpage/SubscriptionCancel";
 import SubscriptionSuccess from "./components/authpage/SubscriptionSuccess";
 import PricingPlans from "./components/pages/PricingPlans";
+import FeatureGate from "./components/paywall/FeatureGate";
 const AppRouter = () => {
   useVisitor();
   return (
@@ -35,13 +36,28 @@ const AppRouter = () => {
         <Route path="/adminDashboard" element={<DashboardMainPage />} />
         <Route
           path="/adminDashboard/responses"
-          element={<ResponseDashboard />}
+          element={
+            <FeatureGate feature="response">
+              <ResponseDashboard />
+            </FeatureGate>
+          }
         />
         <Route
           path="/adminDashboard/responses/:id"
-          element={<ViewResponsePage />}
+          element={
+            <FeatureGate feature="viewResponse">
+              <ViewResponsePage />
+            </FeatureGate>
+          }
         />
-        <Route path="/adminDashboard/users" element={<UserDashboardPage />} />
+        <Route
+          path="/adminDashboard/users"
+          element={
+            <FeatureGate feature="users">
+              <UserDashboardPage />
+            </FeatureGate>
+          }
+        />
         <Route path="/adminDashboard/edituser/:id" element={<EditUserPage />} />
         <Route
           path="/adminDashboard/uniquevisitorPage"

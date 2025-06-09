@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 const DashboardMainPage = () => {
   const navigate = useNavigate();
   const { plan, status, startDate, endDate, loading, error , stripeCustomerId , stripeSubscriptionId } = useSelector((state) => state.subscription);
-  console.log("subscription " , plan, status, startDate, endDate, loading, error , stripeCustomerId , stripeSubscriptionId)
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;

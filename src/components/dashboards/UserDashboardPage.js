@@ -34,7 +34,7 @@ const UserDashboardPage = () => {
 
     const getUsers = () => {
         axios
-            .get(`${base_urlLink}/auth/api/getallusers`)
+            .get(`${base_urlLink}/api/auth/getallusers`)
             .then((response) => {
                 setUsers(response.data);
             })

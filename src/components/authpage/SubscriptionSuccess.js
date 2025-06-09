@@ -1,11 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getSubscriptionStatus } from "../../services/subscriptionService";
+import { setSubscription } from "../../redux-store/slices/subscriptionSlice";
 
 const SubscriptionSuccess = () => {
-  const subscription = useSelector((state) => state.subscription);
   const navigate = useNavigate();
 
+  const subscription = useSelector((state) => state.subscription);
   const { plan, status, startDate, endDate } = subscription || {};
 
   return (
@@ -43,14 +45,8 @@ const SubscriptionSuccess = () => {
         </div>
 
         <div className="d-grid gap-2">
-          <button className="btn btn-primary" onClick={() => navigate("/")}>
+          <button className="btn btn-primary" onClick={() => navigate("/adminDashboard")}>
             Go to Dashboard
-          </button>
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() => navigate("/price")}
-          >
-            Manage Subscription
           </button>
         </div>
       </div>

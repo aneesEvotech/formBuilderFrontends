@@ -26,7 +26,7 @@ const EditUserPage = () => {
 
     const getUserById = (id) => {
         axios
-            .get(`${base_urlLink}/auth/api/getuserbyid/${id}`)
+            .get(`${base_urlLink}/api/auth/getuserbyid/${id}`)
             .then((response) => {
                 setUsers(response.data);
             })
@@ -43,7 +43,7 @@ const EditUserPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .put(`${base_urlLink}/auth/api/updateuser/${id}`, users, {
+            .put(`${base_urlLink}/api/auth/updateuser/${id}`, users, {
                 headers: {
                     "Content-Type": "application/json",
                 },

@@ -72,14 +72,13 @@ const LoginPage = () => {
       );
 
       if (response.data && response.data.token) {
-        console.log(response)
         toast.success("Login successful!");
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data));
 
         // ⬇️ Fetch subscription
         const subscriptionData = await getSubscriptionStatus();
-        dispatch(setSubscription(subscriptionData)); // Save to Redux
+        dispatch(setSubscription(subscriptionData.subscription)); // Save to Redux
 
         navigate("/");
       } else {
@@ -93,9 +92,6 @@ const LoginPage = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    alert("Google Login functionality will go here.");
-  };
 
   return (
     <div className="container mt-5">
