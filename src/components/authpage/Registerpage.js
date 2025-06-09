@@ -92,10 +92,8 @@ const RegisterPage = () => {
         }
       );
       if (response.data) {
-        localStorage.setItem('authToken', response.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        toast.success("register successfully");
-        navigate('/');
+        toast.success("Register successfully");
+        navigate('/login');
       }
     } catch (error) {
       toast.error("Login failed", error.response?.data || error.message)

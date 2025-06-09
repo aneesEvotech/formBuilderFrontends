@@ -77,8 +77,8 @@ const LoginPage = () => {
         localStorage.setItem("user", JSON.stringify(response.data));
 
         // ⬇️ Fetch subscription
-        const subscriptionData = await getSubscriptionStatus();
-        dispatch(setSubscription(subscriptionData.subscription)); // Save to Redux
+        // const subscriptionData = await getSubscriptionStatus();
+        // dispatch(setSubscription(subscriptionData.subscription)); // Save to Redux
 
         navigate("/");
       } else {

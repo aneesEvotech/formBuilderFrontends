@@ -1,14 +1,36 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getSubscriptionStatus } from "../../services/subscriptionService";
-import { setSubscription } from "../../redux-store/slices/subscriptionSlice";
 
 const SubscriptionSuccess = () => {
   const navigate = useNavigate();
-
   const subscription = useSelector((state) => state.subscription);
   const { plan, status, startDate, endDate } = subscription || {};
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simple delay of 1 second to simulate loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div
+          className="spinner-border text-primary"
+          role="status"
+          aria-label="Loading"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100 bg-light">
@@ -45,7 +67,10 @@ const SubscriptionSuccess = () => {
         </div>
 
         <div className="d-grid gap-2">
-          <button className="btn btn-primary" onClick={() => navigate("/adminDashboard")}>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/adminDashboard")}
+          >
             Go to Dashboard
           </button>
         </div>
