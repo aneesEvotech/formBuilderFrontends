@@ -1,13 +1,16 @@
 import React, { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
 import axios from "axios";
 import { base_urlLink } from "../helper/config";
 import { toast } from "react-toastify";
 import HomepageDummy from "./HomepageDummy";
+import { logoutUser } from "../../redux-store/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activeModal, setActiveModal] = useState("forms");
   const [forms, setForms] = useState([]);
   const [responsevalue, setResponsevalue] = useState([]);
@@ -18,14 +21,14 @@ const Homepage = () => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-
-  let userlogo = 'https://th.bing.com/th?q=Windows+User+Account+Icon&w=100&h=100&c=7&o=5&dpr=1.3&pid=1.7&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1';
+  let userlogo =
+    "https://th.bing.com/th?q=Windows+User+Account+Icon&w=100&h=100&c=7&o=5&dpr=1.3&pid=1.7&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1";
 
   useEffect(() => {
     if (user) {
       setActiveModal("forms");
     } else {
-      navigate('/login');
+      navigate("/login");
     }
 
     if (forms.length === 0 && responsevalue.length === 0) {
@@ -34,27 +37,29 @@ const Homepage = () => {
   }, [user]);
 
   const getForms = () => {
-    axios.get(`${base_urlLink}/api/forms/getall`)
-      .then(response => {
+    axios
+      .get(`${base_urlLink}/api/forms/getall`)
+      .then((response) => {
         setForms(response.data);
         setResponsevalue(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching forms:', error);
+      .catch((error) => {
+        console.error("Error fetching forms:", error);
       });
-  }
+  };
 
   const handleDeleteForm = (id) => {
-    axios.delete(`${base_urlLink}/api/forms/${id}`)
-      .then(response => {
-        toast.success('Form deleted successfully');
+    axios
+      .delete(`${base_urlLink}/api/forms/${id}`)
+      .then((response) => {
+        toast.success("Form deleted successfully");
         getForms();
       })
-      .catch(error => {
-        console.error('Error deleting form:', error);
-        toast.error('Error deleting form');
+      .catch((error) => {
+        console.error("Error deleting form:", error);
+        toast.error("Error deleting form");
       });
-  }
+  };
 
   const closeModal = () => setActiveModal(null);
 
@@ -65,32 +70,44 @@ const Homepage = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("authToken");
+    dispatch(logoutUser());
     setUser(null);
     toast.info("Logged out successfully");
+    window.location.href = "/login";
   };
 
   const columnsForm = [
     {
-      name: 'Action', cell: (row) => (
+      name: "Action",
+      cell: (row) => (
         <>
-          <button className="btn btn-primary btn-sm me-2" onClick={() => navigate(`/editform/${row._id}`)}>
+          <button
+            className="btn btn-primary btn-sm me-2"
+            onClick={() => navigate(`/editform/${row._id}`)}
+          >
             <i className="bi bi-pencil"></i>
           </button>
-          <button className="btn btn-danger btn-sm" onClick={() => setFormToDelete(row._id)}>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => setFormToDelete(row._id)}
+          >
             <i className="bi bi-trash"></i>
           </button>
         </>
-      )
+      ),
     },
-    { name: 'Title', selector: row => row.title, sortable: true },
-    { name: 'Description', selector: row => row.description },
-    { name: 'Fields', selector: row => row.fields.length },
-    { name: 'Created', selector: row => new Date(row.createdAt).toLocaleDateString() },
+    { name: "Title", selector: (row) => row.title, sortable: true },
+    { name: "Description", selector: (row) => row.description },
+    { name: "Fields", selector: (row) => row.fields.length },
+    {
+      name: "Created",
+      selector: (row) => new Date(row.createdAt).toLocaleDateString(),
+    },
   ];
 
   const columnsResponse = [
     {
-      name: 'Action',
+      name: "Action",
       cell: (row) => (
         <button
           className="btn btn-primary btn-sm"
@@ -101,14 +118,14 @@ const Homepage = () => {
         >
           Submit your answer
         </button>
-      )
+      ),
     },
     {
-      name: 'Title',
-      selector: row => row.title,
+      name: "Title",
+      selector: (row) => row.title,
       sortable: true,
-      style: { cursor: 'pointer' }
-    }
+      style: { cursor: "pointer" },
+    },
   ];
 
   return (
@@ -121,7 +138,7 @@ const Homepage = () => {
           </a>
           <button
             className="btn btn-outline-light btn-sm ms-2"
-            onClick={() => navigate('/adminDashboard')}
+            onClick={() => navigate("/adminDashboard")}
           >
             <i className="bi bi-speedometer2 me-1"></i> Dashboard
           </button>
@@ -143,7 +160,8 @@ const Homepage = () => {
                   className="btn btn-outline-light btn-sm px-3"
                   onClick={() => setActiveModal("response")}
                 >
-                  <i className="bi bi-chat-dots-fill me-1"></i> Response Submission
+                  <i className="bi bi-chat-dots-fill me-1"></i> Response
+                  Submission
                 </button>
               </li>
               <li className="nav-item">
@@ -169,12 +187,18 @@ const Homepage = () => {
                       />
                       <span>{user.user.username}</span>
                     </div>
-                    <button className="btn btn-outline-light btn-sm px-3" onClick={handleLogout}>
+                    <button
+                      className="btn btn-outline-light btn-sm px-3"
+                      onClick={handleLogout}
+                    >
                       Logout
                     </button>
                   </>
                 ) : (
-                  <button className="btn btn-outline-light btn-sm px-3" onClick={handleLogin}>
+                  <button
+                    className="btn btn-outline-light btn-sm px-3"
+                    onClick={handleLogin}
+                  >
                     Login
                   </button>
                 )}
@@ -184,16 +208,26 @@ const Homepage = () => {
         </div>
       </nav>
       <div className="card">
-          <HomepageDummy/>
+        <HomepageDummy />
       </div>
       {/* Forms Modal */}
       {activeModal === "forms" && (
-        <div className="custom-modal-overlay" style={{ zIndex: 1000, width: '100%' }} onClick={closeModal}>
-          <div className="custom-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="custom-modal-overlay"
+          style={{ zIndex: 1000, width: "100%" }}
+          onClick={closeModal}
+        >
+          <div
+            className="custom-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="card shadow-sm">
               <div className="card-header d-flex justify-content-between align-items-center bg-primary text-white">
                 <h5 className="mb-0">Form List</h5>
-                <button className="btn btn-light btn-sm" onClick={() => navigate('/addform')}>
+                <button
+                  className="btn btn-light btn-sm"
+                  onClick={() => navigate("/addform")}
+                >
                   <i className="bi bi-plus-lg me-1"></i> Add Form
                 </button>
               </div>
@@ -217,8 +251,15 @@ const Homepage = () => {
 
       {/* Response Modal */}
       {activeModal === "response" && (
-        <div className="custom-modal-overlay" style={{ zIndex: 1000, width: '100%' }} onClick={closeModal}>
-          <div className="custom-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="custom-modal-overlay"
+          style={{ zIndex: 1000, width: "100%" }}
+          onClick={closeModal}
+        >
+          <div
+            className="custom-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="card shadow-sm">
               <div className="card-header d-flex justify-content-between align-items-center bg-primary text-white">
                 <h5 className="mb-0">Submit your response</h5>
@@ -244,24 +285,38 @@ const Homepage = () => {
 
       {/* Bootstrap Confirm Modal */}
       {formToDelete && (
-        <div className="modal show fade d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <div
+          className="modal show fade d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Deletion</h5>
-                <button type="button" className="btn-close" onClick={() => setFormToDelete(null)}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setFormToDelete(null)}
+                ></button>
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to delete this form?</p>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setFormToDelete(null)}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setFormToDelete(null)}
+                >
                   Cancel
                 </button>
-                <button className="btn btn-danger" onClick={() => {
-                  handleDeleteForm(formToDelete);
-                  setFormToDelete(null);
-                }}>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    handleDeleteForm(formToDelete);
+                    setFormToDelete(null);
+                  }}
+                >
                   Delete
                 </button>
               </div>

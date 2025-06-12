@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getSubscriptionStatus } from "../../services/subscriptionService";
 import { useDispatch } from "react-redux";
 import { setSubscription } from "../../redux-store/slices/subscriptionSlice";
+import { setUser } from "../../redux-store/slices/authSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -75,11 +76,7 @@ const LoginPage = () => {
         toast.success("Login successful!");
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data));
-
-        // ⬇️ Fetch subscription
-        // const subscriptionData = await getSubscriptionStatus();
-        // dispatch(setSubscription(subscriptionData.subscription)); // Save to Redux
-
+        dispatch(setUser(response.data));
         navigate("/");
       } else {
         toast.error("Login failed: Invalid credentials");
@@ -91,7 +88,6 @@ const LoginPage = () => {
       console.error("Login failed:", errorMessage);
     }
   };
-
 
   return (
     <div className="container mt-5">

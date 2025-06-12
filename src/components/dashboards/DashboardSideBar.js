@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import { toast } from "react-toastify";
 import FeatureGate from "../paywall/FeatureGate";
+import { logoutUser } from "../../redux-store/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const DashboardSidebar = ({ data }) => {
+  const dispatch = useDispatch();
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -16,7 +19,8 @@ const DashboardSidebar = ({ data }) => {
     localStorage.removeItem("authToken");
     setUser(null);
     toast.info("Logged out successfully");
-    navigate("/"); // or navigate("/login") if you have a login route
+    dispatch(logoutUser());
+    window.location.href = "/login";
   };
 
   const SidebarItem = ({ iconClass, label, to }) => (
