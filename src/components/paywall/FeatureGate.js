@@ -7,7 +7,7 @@ const FeatureGate = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1000);
+    const timer = setTimeout(() => setLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
 

@@ -15,6 +15,7 @@ function App() {
     const fetchLatestSubscription = async () => {
       try {
         const subscriptionData = await getSubscriptionStatus();
+        console.log("subscriptionData" ,subscriptionData)
         dispatch(setSubscription(subscriptionData.subscription));
       } catch (err) {
         console.error("Failed to fetch updated subscription", err);

@@ -6,4 +6,4 @@ export const fetchSubscriptionStatus = async () => {
     withCredentials: true,
   });
   return res.data;
-};
+};  

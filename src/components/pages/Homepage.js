@@ -64,6 +64,7 @@ const Homepage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("authToken");
     setUser(null);
     toast.info("Logged out successfully");
   };
